@@ -1,0 +1,6 @@
+---
+# defaults file for fetch-auth-data
+#
+debug_me: False
+fetch_pk_dir: /tmp/fetched/pubkeys
+fetch_totp_dir: /tmp/fetched/totp

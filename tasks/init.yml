@@ -1,0 +1,8 @@
+---
+
+- name: "install openldap-clients software"
+  dnf:
+    name: [ 'openldap-clients', 'python3-ldap' ]
+    state: present
+  tags:
+    - always

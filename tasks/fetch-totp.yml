@@ -1,0 +1,51 @@
+--- 
+
+- name: "find totp files"
+  find:
+    paths: /home
+    patterns: "^totp$"
+    use_regex: yes
+    file_type: file
+    recurse: yes
+    excludes: "mysql,nginx"
+  register: totpfiles_found
+  tags:
+    - get-totp-files
+
+- name: "debug totpfiles_found"
+  debug:
+    msg: "{{ item }}"
+  loop: "{{ totpfiles_found.files }}"
+  tags:
+    - get-totp-files
+
+#- name: "fetch totp files"
+#  fetch:
+#    src: "{{ item.path }}"
+#    dest: "{{ fetch_totp_dir }}"
+#  loop: "{{ totpfiles_found.files }}"
+#  tags:
+#    - get-totp-files
+
+- name: "slurp totp files"
+  slurp:
+    src: "{{ item.path }}"
+  loop: "{{ totpfiles_found.files }}"
+  register: totpfiles_content
+  tags:
+    - get-totp-files
+
+- name: "debug totpfiles_content"
+  debug:
+    msg: "{{ item }}"
+  loop: "{{ totpfiles_content.results }}"
+  tags:
+    - get-totp-files
+
+- name: "set fact for slurped totpfiles_content"
+  set_fact:
+    totp_content: "{{ totpfiles_content.results }}"
+  tags:
+    - get-totp-files
+
+

@@ -1,0 +1,22 @@
+---
+
+- name: "getent hosts added to inventory"
+  ansible.builtin.add_host:
+    name: "{{ item }}"
+    groups: "{{ outside_item.ansible_facts.getent_netgroup.keys() | list | flatten | join }}"
+  with_items:
+    - "{{ outside_item.ansible_facts.getent_netgroup.values() | list | flatten | replace('(', '') | replace(')', '') | replace(',,', '') }}"
+  tags:
+     - fetch-netgroup-info
+
+
+
+
+## add the following where add-hosts.yml will be included:
+##
+#- include_tasks: add-hosts.yml 
+#  with_items:
+#    - "{{ getent_netgroup_hosts.results }}"
+#  loop_control:
+#    loop_var: outside_item
+
