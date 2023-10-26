@@ -9,14 +9,3 @@
   tags:
      - fetch-netgroup-info
 
-
-
-
-## add the following where add-hosts.yml will be included:
-##
-#- include_tasks: add-hosts.yml 
-#  with_items:
-#    - "{{ getent_netgroup_hosts.results }}"
-#  loop_control:
-#    loop_var: outside_item
-

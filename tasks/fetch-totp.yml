@@ -1,7 +1,7 @@
 --- 
 
 - name: "find totp files"
-  find:
+  ansible.builtin.find:
     paths: /home
     patterns: "^totp$"
     use_regex: yes
@@ -13,14 +13,14 @@
     - get-totp-files
 
 - name: "debug totpfiles_found"
-  debug:
+  ansible.builtin.debug:
     msg: "{{ item }}"
   loop: "{{ totpfiles_found.files }}"
   tags:
     - get-totp-files
 
 #- name: "fetch totp files"
-#  fetch:
+#  ansible.builtin.fetch:
 #    src: "{{ item.path }}"
 #    dest: "{{ fetch_totp_dir }}"
 #  loop: "{{ totpfiles_found.files }}"
@@ -28,7 +28,7 @@
 #    - get-totp-files
 
 - name: "slurp totp files"
-  slurp:
+  ansible.builtin.slurp:
     src: "{{ item.path }}"
   loop: "{{ totpfiles_found.files }}"
   register: totpfiles_content
@@ -36,14 +36,14 @@
     - get-totp-files
 
 - name: "debug totpfiles_content"
-  debug:
+  ansible.builtin.debug:
     msg: "{{ item }}"
   loop: "{{ totpfiles_content.results }}"
   tags:
     - get-totp-files
 
 - name: "set fact for slurped totpfiles_content"
-  set_fact:
+  ansible.builtin.set_fact:
     totp_content: "{{ totpfiles_content.results }}"
   tags:
     - get-totp-files

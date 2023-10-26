@@ -3,7 +3,7 @@
 # this will run on host containing pubkeys in user home dirs
 # look for all pubkeys under home dir
 - name: "find ssh public key files"
-  find:
+  ansible.builtin.find:
     paths: /home
     patterns: "^id_.*pub$"
     use_regex: yes
@@ -15,14 +15,14 @@
     - get-ssh-publickey
 
 - name: "debug sshpubkeys_found"
-  debug:
+  ansible.builtin.debug:
     msg: "{{ item }}"
   loop: "{{ sshpubkeys_found.files }}"
   tags:
    - get-ssh-publickey
 
 - name: "slurp pub keys"
-  slurp:
+  ansible.builtin.slurp:
     src: "{{ item.path }}"
   loop: "{{ sshpubkeys_found.files }}"
   register: sshpubkeys_content
@@ -30,14 +30,14 @@
     - get-ssh-publickey
 
 - name: "debug sshpubkeys_content"
-  debug:
+  ansible.builtin.debug:
     msg: "{{ item }}"
   loop: "{{ sshpubkeys_content.results }}"
   tags:
     - get-ssh-publickey
 
 - name: "set fact for slurped sshpubkeys_content"
-  set_fact:
+  ansible.builtin.set_fact:
     sshpk_content: "{{ sshpubkeys_content.results }}"
   tags:
     - get-ssh-publickey
