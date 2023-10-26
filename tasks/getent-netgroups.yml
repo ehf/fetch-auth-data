@@ -19,7 +19,7 @@
     - fetch-netgroup-info
 
 - name: "debug register ldap_uid_and_host"
-  debug:
+  ansible.builtin.debug:
     var: ldap_uid_and_host.results
   tags:
     - get-uid-and-host
@@ -27,7 +27,7 @@
     - fetch-netgroup-info
 
 - name: "set fact for ldap_uid_and_host"
-  set_fact:
+  ansible.builtin.set_fact:
     ldap_uid_and_host_content: "{{ ldap_uid_and_host.results }}"
   tags:
     - get-uid-and-host
@@ -46,14 +46,14 @@
     - fetch-netgroup-info
 
 - name: "debug register getent_netgroup_hosts"
-  debug:
+  ansible.builtin.debug:
     var: getent_netgroup_hosts.results
   tags:
     - get-netgroups
     - fetch-netgroup-info
 
 - name: "debug register getent_netgroup_hosts"
-  debug:
+  ansible.builtin.debug:
     msg: "{{ item.ansible_facts.getent_netgroup.keys()  }}  {{ item.ansible_facts.getent_netgroup.values() | list | flatten | trim | replace('(', '') | replace(')', '') | replace(',,', '') }}"
   loop: "{{ getent_netgroup_hosts.results }}"
   tags:
@@ -68,5 +68,5 @@
   tags:
     - fetch-netgroup-info
 
-- debug: var=groups
-- debug: var=group_names
+- ansible.builtin.debug: var=groups
+- ansible.builtin.debug: var=group_names
