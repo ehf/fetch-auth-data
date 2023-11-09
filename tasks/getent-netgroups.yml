@@ -8,7 +8,7 @@
       - uid
       - host
     server_uri: "ldaps://{{ ldap_uri_host }}"
-    filter: "(&(objectClass=*)(host=*))"
+    filter: "(&(objectClass=ldapPublicKey)(host=*-host*))"
     bind_dn: "{{ ldap_auth.bind_dn }}"
     bind_pw: "{{ ldap_auth.bind_pw }}"
     validate_certs: false
