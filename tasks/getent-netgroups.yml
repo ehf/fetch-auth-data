@@ -39,8 +39,11 @@
     database: netgroup
     key: "{{ item }}"
     fail_key: False
-  with_items: "{{ ldap_uid_and_host.results | json_query('[*].host') }}"
+  with_items: "{{ ldap_uid_and_host.results | json_query(jmesquery) }}"
   register: getent_netgroup_hosts
+  vars:
+    jmesquery: "[*].host[?contains(@,'-host') == `true`]"
+    #jmesquery: "[*].host"
   tags:
     - get-netgroups
     - fetch-netgroup-info
