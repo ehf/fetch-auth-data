@@ -8,7 +8,7 @@
       - uid
       - host
     server_uri: "ldaps://{{ ldap_uri_host }}"
-    filter: "(&(objectClass=ldapPublicKey)(host=*-host*))"
+    filter: "(&(objectClass=ldapPublicKey)(host=*_host*))"
     bind_dn: "{{ ldap_auth.bind_dn }}"
     bind_pw: "{{ ldap_auth.bind_pw }}"
     validate_certs: false
@@ -42,7 +42,7 @@
   with_items: "{{ ldap_uid_and_host.results | json_query(jmesquery) }}"
   register: getent_netgroup_hosts
   vars:
-    jmesquery: "[*].host[?contains(@,'-host') == `true`]"
+    jmesquery: "[*].host[?contains(@,'_host') == `true`]"
     #jmesquery: "[*].host"
   tags:
     - get-netgroups
